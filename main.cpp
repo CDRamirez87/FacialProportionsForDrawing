@@ -2,9 +2,12 @@
 #include "functions.h"
 #include "structs.h"
 
+//Originally written May 2015
 
+//Declare the standard string namespace
 using std::string;
 
+//Get coordinates of initial circle from user
 float inputCoordinates(string inputType)
 {
    std::cout << "Enter the coordinate for the " << inputType << " point of the circle: ";
@@ -13,7 +16,7 @@ float inputCoordinates(string inputType)
    return userInput;
 }
 
-
+//Return the radius of the circle
 float getRadius(float pointA, float pointB)
 {
     float x(0), y(0);
@@ -22,20 +25,21 @@ float getRadius(float pointA, float pointB)
     return y;
 }
 
+//Divides the face into sections
 float getSectionSize(float top, float bottom)
 {
     float height = bottom - top;
     return (height / 8);
 }
 
-
+//Returns the Y coordinate for a section
 float getLine(float sectionSize, int multiplier, float topY)
 {
     float distance = (sectionSize * multiplier);
     return (distance + topY);
 }
 
-
+//Outputs the section data
 void printResults(Face myFace)
 {
     using std::cout;
@@ -49,11 +53,13 @@ void printResults(Face myFace)
     cout << "The Y coordinate for the chinline is: " << myFace.chinLine << "\n\n";
 }
 
+//Returns optimal eye width
 float getEyeWidth(float shavedLeft, float shavedRight)
 {
     return ((shavedRight - shavedLeft) / 5);
 }
 
+//Returns the coordinates for the width of the eye
 XCoPoints getEyePoints(float shavedLeft, float eyeWidth)
 {
     eyePoints.point1 = shavedLeft + eyeWidth;
@@ -63,6 +69,7 @@ XCoPoints getEyePoints(float shavedLeft, float eyeWidth)
     return eyePoints;
 }
 
+//Outputs the coordinates for the width of the eye
 void printEyePoints(float shavedLeft, float shavedRight, XCoPoints eyePoints)
 {
     std::cout << "\nThe X coordinate for the shaved left side is: " << shavedLeft << "\n";
@@ -76,19 +83,23 @@ void printEyePoints(float shavedLeft, float shavedRight, XCoPoints eyePoints)
 
 int main()
 {
+    //Declare variables
     float leastX(0.0), mostX(0.0), topY(0.0), bottomY(0.0);
-
     string circleTop, circleBottom, circleLeft, circleRight;
+
+    //Initialize string variables
     circleTop = "topmost";
     circleBottom = "bottommost";
     circleLeft = "leftmost";
     circleRight = "rightmost";
 
+    //Initialize coordinate variables with user input
     leastX = inputCoordinates(circleLeft);
     mostX = inputCoordinates(circleRight);
     topY = inputCoordinates(circleTop);
     bottomY = inputCoordinates(circleBottom);
 
+    //Analyze the input
     float radiusLength = getRadius(leastX, mostX);
     myFace.midpoint = radiusLength + leastX;
 
@@ -100,10 +111,16 @@ int main()
     myFace.noseLine = getLine(sectionSize, 7, topY);
     myFace.chinLine = getLine(sectionSize, 10, topY);
 
+    //Output first set of data
     printResults(myFace);
 
+    //Declare variables for second analysis
     float amountToShave(0), shavedLeft(0), shavedRight(0);
-    amountToShave = inputCoordinates("amount you want to shave from each\n sidemost");
+
+    //Get additional user input
+    amountToShave = inputCoordinates("amount you want to shave from each\nsidemost");
+
+    //Process the additional user input
     shavedLeft = leastX + amountToShave;
     shavedRight = mostX - amountToShave;
 
@@ -111,8 +128,10 @@ int main()
 
     eyePoints = getEyePoints(shavedLeft, eyeWidth);
 
+    //Output the analyzed data
     printEyePoints(shavedLeft, shavedRight, eyePoints);
 
+    //Stopping point for user to record data
     std::cout << "\nPress Enter to continue\n";
 
     std::cin.clear(); // reset any error flags

@@ -1,6 +1,7 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+//Struct containing facial points
 struct Face
 {
     float midpoint;
@@ -11,7 +12,7 @@ struct Face
     float chinLine;
 
 };
-
+//Struct of X coordinates
 struct XCoPoints
 {
     float point1;
@@ -20,6 +21,7 @@ struct XCoPoints
     float point4;
 };
 
+//Initialize structs
 Face myFace = {0.0, 0.0, 0.0, 0.0, 0.0};
 XCoPoints eyePoints = {0.0, 0.0, 0.0, 0.0};
 
